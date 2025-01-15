@@ -5,7 +5,6 @@ class Config:
     UPLOAD_FOLDER = 'uploads/'
     ALLOWED_EXTENSIONS = {'pdf'}
     CSV_FILE_PATH = 'data/voter_records.csv'
-    DEBUG = True
     HOST = '0.0.0.0'
     PORT = 5000
 

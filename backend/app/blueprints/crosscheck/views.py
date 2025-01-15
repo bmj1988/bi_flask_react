@@ -37,5 +37,6 @@ def crosscheck(request):
 def wipe_uploads():
     # Clear the uploads folder
     for file in os.listdir(current_app.config['UPLOAD_FOLDER']):
-        os.remove(os.path.join(current_app.config['UPLOAD_FOLDER'], file))
+        if file != '.gitkeep':
+            os.remove(os.path.join(current_app.config['UPLOAD_FOLDER'], file))
     return jsonify({"cleared": True})
