@@ -58,7 +58,7 @@ const crosscheckSlice = createSlice({
             })
             .addCase(crosscheckPDF.fulfilled, (state, action) => {
                 console.log(action.payload);
-                state.status = 'succeeded';
+                state.status = 'success';
                 state.data = action.payload;
                 state.error = null;
             })
@@ -67,7 +67,7 @@ const crosscheckSlice = createSlice({
                 state.error = action.error.message;
             })
             .addCase(wipeUploads.fulfilled, (state) => {
-                state.status = 'succeeded';
+                state.status = 'success';
                 state.data = {};
                 state.error = null;
             })

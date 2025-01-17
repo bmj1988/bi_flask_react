@@ -5,6 +5,14 @@ from app.blueprints import register_blueprints
 from config import get_config
 from flask_cors import CORS
 
+def clean_ward(ward_value):
+    try:
+        # Convert to float first, then to int to handle the decimal format
+        return int(float(ward_value))
+    except (ValueError, TypeError):
+        # Return None or some default value if conversion fails
+        return None
+
 # Function to load the CSV file (or create an empty dataframe if it doesn't exist)
 def load_voter_records(app):
     csv_path = app.config.get('CSV_FILE_PATH')
@@ -18,6 +26,7 @@ def load_voter_records(app):
                                      records["Street_Type"].astype(str) + " " +
                                      records["Street_Dir_Suffix"].astype(str))
             records['Full Name and Full Address'] = records["Full Name"].astype(str) + ' ' + records["Full Address"].astype(str)
+            records['WARD'] = records['WARD'].apply(clean_ward)
             app.logger.info(f"Data loaded from {csv_path}")
             return records
         except Exception as e:

@@ -30,8 +30,8 @@ def perform_database_crosscheck():
 
             # Build the result dictionary
             temp_dict = {
-                "OCR RECORD": f"{dict_['Name']} {dict_['Address']}",
-                "MATCHED RECORD": name_,
+                "OCR_RECORD": f"{dict_['Name']} {dict_['Address']}",
+                "MATCHED_RECORD": name_,
                 "SCORE": "{:.2f}".format(score_),
                 "VALID": score_ > 85.0
             }
@@ -40,7 +40,7 @@ def perform_database_crosscheck():
         # Print progress in the console instead of a progress bar
 
     # Create a DataFrame from the results
-    voter_record_ocr_matches = pd.DataFrame(matched_list, columns=["OCR RECORD", "MATCHED RECORD", "SCORE", "VALID"])
+    voter_record_ocr_matches = pd.DataFrame(matched_list, columns=["OCR_RECORD", "MATCHED_RECORD", "SCORE", "VALID"])
 
     end_time = time.time()
     total_records = len(voter_record_ocr_matches)
