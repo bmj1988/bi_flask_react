@@ -1,5 +1,5 @@
-import { createSlice } from '@reduxjs/toolkit';
-
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+const BACKEND_SERVER_URL = process.env.REACT_APP_FLASK_URL;
 // Initial state
 const initialState = {
     data: {},
@@ -8,7 +8,7 @@ const initialState = {
 };
 
 const crosscheckPDFData = async (pdf_files) => {
-    const response = await fetch('http://localhost:8000/crosscheck', {
+    const response = await fetch(`${BACKEND_SERVER_URL}/crosscheck`, {
         method: 'POST',
         body: pdf_files,
     });
@@ -31,9 +31,9 @@ export const crosscheckPDF = createAsyncThunk('crosscheck/crosscheckPDF',
 );
 
 export const wipeUploads = createAsyncThunk('crosscheck/wipeUploads',
-    async () => {
+    async (thunkAPI) => {
         try {
-            let response = await fetch('http://localhost:8000/wipe_uploads', {
+            let response = await fetch(`${BACKEND_SERVER_URL}/wipe_uploads`, {
                 method: 'POST',
             });
             if (!response.ok) {
@@ -57,8 +57,10 @@ const crosscheckSlice = createSlice({
                 state.status = 'loading';
             })
             .addCase(crosscheckPDF.fulfilled, (state, action) => {
+                console.log(action.payload);
                 state.status = 'succeeded';
                 state.data = action.payload;
+                state.error = null;
             })
             .addCase(crosscheckPDF.rejected, (state, action) => {
                 state.status = 'failed';
@@ -67,6 +69,7 @@ const crosscheckSlice = createSlice({
             .addCase(wipeUploads.fulfilled, (state) => {
                 state.status = 'succeeded';
                 state.data = {};
+                state.error = null;
             })
             .addCase(wipeUploads.rejected, (state, action) => {
                 state.status = 'failed';

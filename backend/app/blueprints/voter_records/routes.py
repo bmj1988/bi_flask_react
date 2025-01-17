@@ -1,4 +1,4 @@
-from flask import request
+from flask import request, jsonify
 from app.blueprints.voter_records import voter_records_bp
 from app.blueprints.voter_records.views import splash, upload_csv, clear_data
 
@@ -13,3 +13,7 @@ def upload_csv_route():
 @voter_records_bp.route('/clear_csv', methods=['POST'])
 def clear_data_route():
     return clear_data()
+
+@voter_records_bp.route('/ping', methods=['GET'])
+def ping():
+    return jsonify({"message": "Message Received"})

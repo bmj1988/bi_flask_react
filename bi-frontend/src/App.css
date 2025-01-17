@@ -1,16 +1,70 @@
 .App {
-  text-align: center;
+  display: flex;
+  flex: 1;
+}
+
+.Main {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  height: 100%;
+  height: 100vh;
+}
+
+.Sidebar-container {
+  display: flex;
+  flex-direction: column;
+  width: 20%;
+  height: 100%;
+  position: relative;
+}
+
+.Sidebar {
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  min-width: 250px;
+  width: 100%;
+  height: 100%;
+  align-items: flex-start;
+  background-color: 	#e3eaf1;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.10);
+  transform: translateX(0);
+  transition: transform 0.3s ease-in-out;
+}
+
+.Sidebar.hidden {
+  transform: translateX(-100%);
+}
+
+.Sidebar-toggle {
+  margin: 20px;
+  cursor: pointer;
+}
+
+.Sidebar-header {
+  display: flex;
+  justify-content: flex-end;
+  margin: 15px 20px 0px 0px;
+  width: 98%;
+}
+
+.Sidebar-content {
+  margin: 20px 0px 0px 20px;
+  width: 100%;
+}
+
+.Main-content {
+  width: 80%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
 }
 
 .App-logo {
   height: 40vmin;
   pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
 }
 
 .App-header {
@@ -28,11 +82,28 @@
   color: #61dafb;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.Upload {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: fit-content;
+  height: 20%;
+  background-color: #e3eaf1;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.10);
+  padding: 0px 20px;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.Upload-header {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  width: 100%;
+  margin-left: 20px;
+}
+
+.Upload.not-empty {
+  border: 2px solid black;
 }

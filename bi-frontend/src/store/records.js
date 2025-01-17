@@ -1,5 +1,6 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 
+const BACKEND_SERVER_URL = process.env.REACT_APP_FLASK_URL;
 // Initial state
 const initialState = {
     empty: true,
@@ -8,7 +9,7 @@ const initialState = {
 };
 
 const loadRecordsData = async (csv) => {
-    const response = await fetch('http://localhost:8000/upload_csv', {
+    const response = await fetch(`http://localhost:5000/upload_csv`, {
         method: 'POST',
         body: csv,
     });
@@ -21,7 +22,7 @@ const loadRecordsData = async (csv) => {
 export const loadCSV = createAsyncThunk('records/loadCSV',
     async (csv, thunkAPI) => {
         try {
-            const data = await crosscheckPDFData(csv);
+            const data = await loadRecordsData(csv);
             return data;
         } catch (error) {
             return thunkAPI.rejectWithValue(error.message);
@@ -30,9 +31,9 @@ export const loadCSV = createAsyncThunk('records/loadCSV',
 );
 
 export const splash = createAsyncThunk('records/splash',
-    async () => {
+    async (thunkAPI) => {
         try {
-            const response = await fetch('http://localhost:8000/splash', {
+            const response = await fetch(`${BACKEND_SERVER_URL}/splash`, {
                 method: 'GET',
             });
             if (!response.ok) throw new Error('Failed to get records status');
@@ -45,9 +46,10 @@ export const splash = createAsyncThunk('records/splash',
 );
 
 export const clearCSV = createAsyncThunk('records/clearCSV',
-    async () => {
+    async (thunkAPI) => {
         try {
-            const response = await fetch('http://localhost:8000/clear_csv', {
+            console.log("URL", `${BACKEND_SERVER_URL}/clear_csv`);
+            const response = await fetch(`${BACKEND_SERVER_URL}/clear_csv`, {
                 method: 'POST',
             });
             if (!response.ok) throw new Error('Failed to clear CSV');

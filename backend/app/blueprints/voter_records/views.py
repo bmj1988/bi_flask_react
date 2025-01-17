@@ -1,7 +1,6 @@
 from flask import jsonify, current_app
 import pandas as pd
 import os
-from app import load_voter_records
 
 #Splash page to check if the dataframe is empty
 def splash():
@@ -10,6 +9,8 @@ def splash():
 
 # Upload CSV file to the dataframe
 def upload_csv(request):
+    print("Uploading CSV")
+    from app import load_voter_records
     if 'csv_file' not in request.files:
         return jsonify({"error": "No file provided"}), 400
 
