@@ -4,6 +4,7 @@ const BACKEND_SERVER_URL = process.env.REACT_APP_FLASK_URL;
 // Initial state
 const initialState = {
     empty: true,
+    pdfLoaded: false,
     error: null,
     status: 'idle',
 };
@@ -64,7 +65,11 @@ export const clearCSV = createAsyncThunk('records/clearCSV',
 const recordsSlice = createSlice({
     name: 'records', // Name of the slice
     initialState,
-    reducers: {},
+    reducers: {
+        setPdfEmpty: (state) => {
+            state.pdfLoaded = false;
+        },
+    },
     extraReducers: (builder) => {
         builder
             .addCase(loadCSV.pending, (state) => {
@@ -79,7 +84,9 @@ const recordsSlice = createSlice({
                 state.error = action.error.message;
             })
             .addCase(splash.fulfilled, (state, action) => {
+                console.log(action.payload)
                 state.empty = action.payload.dataframeEmpty;
+                state.pdfLoaded = action.payload.pdfLoaded;
             })
             .addCase(splash.rejected, (state, action) => {
                 state.status = 'failed';
@@ -95,6 +102,8 @@ const recordsSlice = createSlice({
             })
     }
 });
+
+export const { setPdfEmpty } = recordsSlice.actions;
 
 // Export reducer to use in the store
 export default recordsSlice.reducer;

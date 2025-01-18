@@ -2,7 +2,10 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 const BACKEND_SERVER_URL = process.env.REACT_APP_FLASK_URL;
 // Initial state
 const initialState = {
-    data: {},
+    results: [],
+    match_time: 0,
+    total_records: 0,
+    valid_matches: 0,
     status: 'idle',
     error: null,
 };
@@ -50,7 +53,11 @@ export const wipeUploads = createAsyncThunk('crosscheck/wipeUploads',
 const crosscheckSlice = createSlice({
     name: 'crosscheck', // Name of the slice
     initialState,
-    reducers: {},
+    reducers: {
+        clearResults: (state) => {
+            return initialState;
+        },
+    },
     extraReducers: (builder) => {
         builder
             .addCase(crosscheckPDF.pending, (state) => {
@@ -58,8 +65,12 @@ const crosscheckSlice = createSlice({
             })
             .addCase(crosscheckPDF.fulfilled, (state, action) => {
                 console.log(action.payload);
-                state.status = 'succeeded';
-                state.data = action.payload;
+                state.status = 'success';
+                state.results = action.payload.voter_record_ocr_matches || [];
+                state.match_time = action.payload.total_time || 0;
+                state.total_records = action.payload.total_records || 0;
+                state.valid_matches = action.payload.valid_matches || 0;
+                state.total_pages = action.payload.total_pages || 0;
                 state.error = null;
             })
             .addCase(crosscheckPDF.rejected, (state, action) => {
@@ -67,19 +78,17 @@ const crosscheckSlice = createSlice({
                 state.error = action.error.message;
             })
             .addCase(wipeUploads.fulfilled, (state) => {
-                state.status = 'succeeded';
-                state.data = {};
-                state.error = null;
+                state.status = 'wipe_success';
             })
             .addCase(wipeUploads.rejected, (state, action) => {
-                state.status = 'failed';
+                state.status = 'wipe_failed';
                 state.error = action.error.message;
             })
             .addCase(wipeUploads.pending, (state) => {
-                state.status = 'loading';
+                state.status = 'wipe_loading';
             })
     }
 });
-
+export const { clearResults } = crosscheckSlice.actions;
 // Export reducer to use in the store
 export default crosscheckSlice.reducer;

@@ -13,7 +13,3 @@ def upload_csv_route():
 @voter_records_bp.route('/clear_csv', methods=['POST'])
 def clear_data_route():
     return clear_data()
-
-@voter_records_bp.route('/ping', methods=['GET'])
-def ping():
-    return jsonify({"message": "Message Received"})
