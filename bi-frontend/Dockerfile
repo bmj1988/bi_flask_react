@@ -12,7 +12,9 @@ RUN npm install
 # Copy source code from the correct location
 COPY ./bi-frontend/ .
 
-# Build the app
+# Build the app with environment variables
+ARG REACT_APP_FLASK_URL
+ENV REACT_APP_FLASK_URL=$REACT_APP_FLASK_URL
 RUN npm run build
 
 # Production stage

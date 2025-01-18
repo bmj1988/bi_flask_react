@@ -4,7 +4,10 @@ services:
     name: bi-frontend-app
     env: docker
     dockerfilePath: bi-frontend/Dockerfile
-    buildCommand: docker build -t bi-frontend ./bi-frontend
+    buildCommand: |
+      docker build \
+        --build-arg REACT_APP_FLASK_URL=https://bi-backend-app.onrender.com \
+        -t bi-frontend ./bi-frontend
     envVars:
       - key: REACT_APP_FLASK_URL
         fromService:
