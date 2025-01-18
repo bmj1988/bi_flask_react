@@ -10,9 +10,8 @@ def encode_image(image_path):
     with open(image_path, "rb") as image_file:
         return base64.b64encode(image_file.read()).decode('utf-8')
 
+# Extracts names and addresses from single ballot image.
 def extract_signature_info(image_path):
-    # Extracts names and addresses from single ballot image.
-    print('!!!IMAGE PATH', image_path)
 
     # Getting the base64 string
     base64_image = encode_image(image_path)
@@ -58,7 +57,4 @@ def extract_signature_info(image_path):
     )
     # convert json into list
     signator_list = json.loads(results.choices[0].message.content)['data']
-
-    print('!!!SIGNATOR LIST', signator_list)
-
     return signator_list

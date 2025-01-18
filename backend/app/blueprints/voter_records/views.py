@@ -13,7 +13,6 @@ def splash():
 
 # Upload CSV file to the dataframe
 def upload_csv(request):
-    print("Uploading CSV")
     from app import load_voter_records
     if 'csv_file' not in request.files:
         return jsonify({"error": "No file provided"}), 400

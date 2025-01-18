@@ -10,7 +10,6 @@ def score_fuzzy_match_slim(ocr_name, full_name_list, scorer_=fuzz.token_ratio, l
 def tiered_search(_dict):
     name, address, ward = _dict['Name'], _dict['Address'], _dict['Ward']
     name_address_combo = f"{name} {address}"
-    print('!!!Tiered Search', name, address, ward, _dict)
     voter_records = current_app.voter_records
 
     # Searches for a match within the Ward returned by OCR
