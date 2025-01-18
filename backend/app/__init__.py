@@ -42,9 +42,25 @@ def create_app():
     # Enable CORS
     # Get frontend URL from environment variable (for Docker support)
     FRONTEND_ORIGIN = os.getenv("FRONTEND_ORIGIN", "http://localhost:3000")
-
+    cors_options = {
+        "origins": [FRONTEND_ORIGIN] if app.config.get("ENV") == "production" else "*",
+        "methods": ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+        "allow_headers": [
+            "Content-Type",
+            "Authorization",
+            "X-Requested-With",
+            "Accept",
+            "Origin",
+            "Access-Control-Request-Method",
+            "Access-Control-Request-Headers"
+        ],
+        "expose_headers": [
+            "Content-Length",
+            "Content-Range"
+        ]
+    }
     # Allow only frontend origin in production, all origins in development
-    CORS(app, resources={r"/*": {"origins": FRONTEND_ORIGIN}})
+    CORS(app, resources={r"/*": cors_options})
 
     # Load configuration
     app.config.from_object(get_config())
@@ -59,9 +75,3 @@ def create_app():
 
 # Create the app instance
 app = create_app()
-
-@app.route('/splash', methods=['GET'])
-def splash():
-    app.logger.info('Received splash request')
-    app.logger.info(f'FRONTEND_ORIGIN: {os.getenv("FRONTEND_ORIGIN")}')
-    # ... rest of your code
