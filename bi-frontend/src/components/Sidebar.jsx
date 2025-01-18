@@ -2,7 +2,7 @@ import { useState } from 'react';
 import '../App.css'
 import { MdClose, MdChevronRight } from "react-icons/md";
 import { useDispatch } from 'react-redux';
-import { clearCSV } from '../store/records';
+import { clearCSV, setPdfEmpty } from '../store/records';
 import { wipeUploads } from '../store/crosscheck';
 
 const Sidebar = ({ csvEmpty, pdfLoaded }) => {
@@ -14,6 +14,7 @@ const Sidebar = ({ csvEmpty, pdfLoaded }) => {
     }
     const handleClearTempFiles= async () => {
         await dispatch(wipeUploads());
+        await dispatch(setPdfEmpty());
     }
 
 

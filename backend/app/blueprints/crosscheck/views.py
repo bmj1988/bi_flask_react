@@ -24,7 +24,7 @@ def crosscheck(request):
             # Save each image as a JPEG
             pdf_file_name = pdf_file.filename.split('.')[0]
             for i, image in enumerate(pdf_images):
-                image_path = f"{current_app.config['UPLOAD_FOLDER']}/{pdf_file_name}-page-{i:02d}.jpg"
+                image_path = f"{current_app.config['UPLOAD_FOLDER']}/{pdf_file_name}-page-{i+1:02d}.jpg"
                 image.save(image_path)
         except Exception as e:
             return jsonify({"error": str(e)}), 500
@@ -35,7 +35,8 @@ def crosscheck(request):
         "voter_record_ocr_matches": voter_record_ocr_matches,
         "total_records": int(total_records),
         "valid_matches": int(valid_matches),
-        "total_time": total_time
+        "total_time": total_time,
+        "total_pages": len(pdf_files)
     })
 
 def wipe_uploads():

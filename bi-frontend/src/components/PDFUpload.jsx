@@ -4,11 +4,10 @@ import { useEffect, useRef, useState } from 'react';
 import { MdCloudUpload } from "react-icons/md";
 
 
-const PDFUpload = ({ crosscheckError, crosscheckStatus }) => {
+const PDFUpload = ({ crosscheckError, crosscheckStatus, loading, setLoading }) => {
     const dispatch = useDispatch();
     const [files, setFiles] = useState([]);
     const [error, setError] = useState("");
-    const [loading, setLoading] = useState(false);
     const fileInput = useRef(null);
 
     useEffect(() => {
@@ -35,8 +34,9 @@ const PDFUpload = ({ crosscheckError, crosscheckStatus }) => {
     const handleSubmit = async (event) => {
         event.preventDefault();
         setLoading(true);
-        if (!files) {
+        if (!files.length) {
             setError("Please select a PDF file before uploading.");
+            setLoading(false);
             return;
         }
 
@@ -47,7 +47,6 @@ const PDFUpload = ({ crosscheckError, crosscheckStatus }) => {
 
         try {
             await dispatch(crosscheckPDF(formData));
-            alert("File uploaded successfully!");
             setFiles([]);
             fileInput.current.value = null;
             setError("");
@@ -60,24 +59,26 @@ const PDFUpload = ({ crosscheckError, crosscheckStatus }) => {
     };
 
     return (
-        <div className={`Upload`}>
-            <MdCloudUpload size={100} />
-            <div className="Upload-header">
-                <h3 style={{ margin: 0 }}>Upload PDF Files</h3>
-                <p>Upload PDF files of signed petitions to crosscheck.</p>
+        <>
+            <div className={`Upload`}>
+                <MdCloudUpload size={100} />
+                <div className="Upload-header">
+                    <h3 style={{ margin: 0 }}>Upload PDF Files</h3>
+                    <p>Upload PDF files of signed petitions to crosscheck.</p>
+                </div>
+                <form onSubmit={handleSubmit}>
+                    <input
+                        type="file"
+                        accept=".pdf"
+                        onChange={handleFileChange}
+                        multiple
+                        disabled={loading}
+                        ref={fileInput} />
+                    <button disabled={loading} style={{ marginTop: 10 }} type="submit">Upload</button>
+                </form>
             </div>
-            <form onSubmit={handleSubmit}>
-                <input
-                    type="file"
-                    accept=".pdf"
-                    onChange={handleFileChange}
-                    multiple
-                    disabled={loading}
-                    ref={fileInput} />
-                <button disabled={loading} style={{ marginTop: 10 }} type="submit">Upload</button>
-            </form>
             {error && <p style={{ color: "red" }}>{error}</p>}
-        </div>
+        </>
     )
 }
 
