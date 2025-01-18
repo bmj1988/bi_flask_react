@@ -41,7 +41,7 @@ Creates a production-ready build in the `build` folder
 
 ## Project Structure
 
-src/
+src/  
 ├── components/ # Reusable UI components  
 ├── services/ # API and other services  
 ├── utils/ # Helper functions and utilities  
