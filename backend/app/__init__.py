@@ -19,14 +19,21 @@ def load_voter_records(app):
 
     if os.path.exists(csv_path):
         try:
-            records = pd.read_csv(csv_path)
-            records['Full Name'] = records["First_Name"].astype(str) + ' ' + records['Last_Name'].astype(str)
-            records['Full Address'] = (records["Street_Number"].astype(str) + " " +
-                                     records["Street_Name"].astype(str) + " " +
-                                     records["Street_Type"].astype(str) + " " +
-                                     records["Street_Dir_Suffix"].astype(str))
-            records['Full Name and Full Address'] = records["Full Name"].astype(str) + ' ' + records["Full Address"].astype(str)
-            records['WARD'] = records['WARD'].apply(clean_ward)
+            # Use chunksize to read the file in chunks
+            chunks = []
+            for chunk in pd.read_csv(csv_path, chunksize=10000):
+                # Process each chunk
+                chunk['Full Name'] = chunk["First_Name"].astype(str) + ' ' + chunk['Last_Name'].astype(str)
+                chunk['Full Address'] = (chunk["Street_Number"].astype(str) + " " +
+                                       chunk["Street_Name"].astype(str) + " " +
+                                       chunk["Street_Type"].astype(str) + " " +
+                                       chunk["Street_Dir_Suffix"].astype(str))
+                chunk['Full Name and Full Address'] = chunk["Full Name"].astype(str) + ' ' + chunk["Full Address"].astype(str)
+                chunk['WARD'] = chunk['WARD'].apply(clean_ward)
+                chunks.append(chunk)
+
+            # Combine all chunks
+            records = pd.concat(chunks, ignore_index=True)
             app.logger.info(f"Data loaded from {csv_path}")
             return records
         except Exception as e:
