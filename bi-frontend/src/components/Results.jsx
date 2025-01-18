@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { clearResults, wipeUploads } from "../store/crosscheck";
 
 const ResultsTable = () => {
-  const { results, match_time, total_records, valid_matches, total_pages, error: crosscheckError, status: crosscheckStatus } = useSelector(state => state.crosscheck);
+  const { results, match_time, total_records, valid_matches, total_pages } = useSelector(state => state.crosscheck);
   const dispatch = useDispatch();
   const handleClearResults = async () => {
     await dispatch(clearResults());
