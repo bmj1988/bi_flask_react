@@ -67,7 +67,7 @@ const crosscheckSlice = createSlice({
                 state.error = action.error.message;
             })
             .addCase(wipeUploads.fulfilled, (state) => {
-                state.status = 'success';
+                state.status = 'idle';
                 state.data = {};
                 state.error = null;
             })
@@ -80,6 +80,5 @@ const crosscheckSlice = createSlice({
             })
     }
 });
-
 // Export reducer to use in the store
 export default crosscheckSlice.reducer;

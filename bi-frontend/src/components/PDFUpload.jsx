@@ -72,8 +72,9 @@ const PDFUpload = ({ crosscheckError, crosscheckStatus }) => {
                     accept=".pdf"
                     onChange={handleFileChange}
                     multiple
+                    disabled={loading}
                     ref={fileInput} />
-                <button style={{ marginTop: 10 }} type="submit">Upload</button>
+                <button disabled={loading} style={{ marginTop: 10 }} type="submit">Upload</button>
             </form>
             {error && <p style={{ color: "red" }}>{error}</p>}
         </div>
