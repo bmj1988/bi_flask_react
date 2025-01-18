@@ -40,10 +40,11 @@ def create_app():
     app = Flask(__name__)
 
     # Enable CORS
-    # Get frontend URL from environment variable (for Docker support)
-    FRONTEND_ORIGIN = os.getenv("FRONTEND_ORIGIN", "http://localhost:3000")
+    # Get frontend URL from environment variable, with deployed URL as fallback
+    FRONTEND_ORIGIN = os.getenv("FRONTEND_ORIGIN", "https://bi-frontend-app.onrender.com")
+
     cors_options = {
-        "origins": [FRONTEND_ORIGIN] if app.config.get("ENV") == "production" else "*",
+        "origins": [FRONTEND_ORIGIN],  # Explicitly allow only the frontend origin
         "methods": ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
         "allow_headers": [
             "Content-Type",
