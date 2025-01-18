@@ -3,14 +3,14 @@ FROM node:18 as build
 
 WORKDIR /app
 
-# Copy package files
-COPY package*.json ./
+# Copy package files from the correct location
+COPY ./bi-frontend/package*.json ./
 
 # Install dependencies
 RUN npm install
 
-# Copy source code
-COPY . .
+# Copy source code from the correct location
+COPY ./bi-frontend/ .
 
 # Build the app
 RUN npm run build
