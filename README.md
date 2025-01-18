@@ -25,10 +25,10 @@ See [Frontend Documentation](./bi-frontend/README.md)
 The frontend application will be available at `http://localhost:3000`
 
 ## Project Structure
-project/
-├── backend/ # Backend application files
-├── frontend/ # Frontend application files
-└── yaml files / # Config files for render and docker
+project/  
+├── backend/ # Backend application files  
+├── frontend/ # Frontend application files  
+└── yaml files / # Config files for render and docker  
 
 ## API Documentation
 
