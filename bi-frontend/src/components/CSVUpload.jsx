@@ -2,7 +2,7 @@ import { useDispatch } from 'react-redux';
 import { loadCSV } from '../store/records';
 import { useEffect, useRef, useState } from 'react';
 import { MdCloudUpload } from "react-icons/md";
-
+import "../App.css";
 
 const CSVUpload = ({ empty, status, error: recordsError, loading, setLoading }) => {
     const dispatch = useDispatch();

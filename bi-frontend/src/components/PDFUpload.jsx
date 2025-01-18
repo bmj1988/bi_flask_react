@@ -2,7 +2,7 @@ import { useDispatch } from 'react-redux';
 import { crosscheckPDF } from '../store/crosscheck';
 import { useEffect, useRef, useState } from 'react';
 import { MdCloudUpload } from "react-icons/md";
-
+import "../App.css";
 
 const PDFUpload = ({ crosscheckError, crosscheckStatus, loading, setLoading }) => {
     const dispatch = useDispatch();

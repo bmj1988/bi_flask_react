@@ -1,6 +1,7 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { clearResults, wipeUploads } from "../store/crosscheck";
+import "../App.css";
 
 const ResultsTable = () => {
   const { results, match_time, total_records, valid_matches, total_pages } = useSelector(state => state.crosscheck);
