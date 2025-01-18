@@ -1,7 +1,7 @@
 from rapidfuzz import process, fuzz, utils
 import numpy as np
 import pandas as pd
-from app import voter_records
+from flask import current_app
 
 def score_fuzzy_match_slim(ocr_name, full_name_list, scorer_=fuzz.token_ratio, limit_=1):
     list_of_match_tuples = process.extract(query=ocr_name, choices=full_name_list, scorer=scorer_, processor=utils.default_process, limit=limit_)
@@ -10,9 +10,19 @@ def score_fuzzy_match_slim(ocr_name, full_name_list, scorer_=fuzz.token_ratio, l
 def tiered_search(_dict):
     name, address, ward = _dict['Name'], _dict['Address'], _dict['Ward']
     name_address_combo = f"{name} {address}"
+    print('!!!Tiered Search', name, address, ward, _dict)
+    voter_records = current_app.voter_records
 
     # Searches for a match within the Ward returned by OCR
-    name_address_matches1 = score_fuzzy_match_slim(name_address_combo, voter_records[voter_records['WARD'] == f"{ward}.0"]["Full Name and Full Address"])
+    try:
+        ward_int = int(ward)
+        name_address_matches1 = score_fuzzy_match_slim(
+            name_address_combo,
+            voter_records[voter_records['WARD'].notna() & (voter_records['WARD'] == ward_int)]["Full Name and Full Address"]
+        )
+    except (ValueError, TypeError):
+        name_address_matches1 = []
+
     if len(name_address_matches1) == 0:
         return '', 0.0, 0
 

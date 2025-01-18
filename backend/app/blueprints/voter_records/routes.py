@@ -1,4 +1,4 @@
-from flask import request
+from flask import request, jsonify
 from app.blueprints.voter_records import voter_records_bp
 from app.blueprints.voter_records.views import splash, upload_csv, clear_data
 

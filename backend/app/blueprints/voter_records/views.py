@@ -1,15 +1,20 @@
 from flask import jsonify, current_app
 import pandas as pd
 import os
-from app import load_voter_records
 
 #Splash page to check if the dataframe is empty
 def splash():
-    dataframeEmpty = current_app.voter_records.empty
-    return jsonify({"dataframeEmpty": dataframeEmpty})
+    dataframe_empty = current_app.voter_records.empty
+    # Check if any files except .gitkeep exist in the upload folder
+    upload_folder = current_app.config['UPLOAD_FOLDER']
+    files = os.listdir(upload_folder)
+    pdf_loaded = any(f != '.gitkeep' for f in files)
+    return jsonify({"dataframeEmpty": dataframe_empty, "pdfLoaded": pdf_loaded})
 
 # Upload CSV file to the dataframe
 def upload_csv(request):
+    print("Uploading CSV")
+    from app import load_voter_records
     if 'csv_file' not in request.files:
         return jsonify({"error": "No file provided"}), 400
 

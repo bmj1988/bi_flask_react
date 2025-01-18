@@ -1,23 +1,25 @@
 import base64
 from openai import OpenAI
-from app import OPENAI_API_KEY
 import os
 import json
+from dotenv import load_dotenv
+
+load_dotenv()
 
 def encode_image(image_path):
     with open(image_path, "rb") as image_file:
         return base64.b64encode(image_file.read()).decode('utf-8')
 
 def extract_signature_info(image_path):
-
     # Extracts names and addresses from single ballot image.
-
+    print('!!!IMAGE PATH', image_path)
 
     # Getting the base64 string
     base64_image = encode_image(image_path)
 
     # open AI client definition
-    client = OpenAI(api_key=os.environ.get(OPENAI_API_KEY))
+    openai_api_key = os.environ.get('OPENAI_API_KEY')
+    client = OpenAI(api_key=openai_api_key)
 
     # prompt message
     messages = [
@@ -54,8 +56,9 @@ def extract_signature_info(image_path):
         temperature=0.0,
         response_format={"type": "json_object"}
     )
-
     # convert json into list
     signator_list = json.loads(results.choices[0].message.content)['data']
+
+    print('!!!SIGNATOR LIST', signator_list)
 
     return signator_list
