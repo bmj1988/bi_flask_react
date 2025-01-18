@@ -59,3 +59,9 @@ def create_app():
 
 # Create the app instance
 app = create_app()
+
+@app.route('/splash', methods=['GET'])
+def splash():
+    app.logger.info('Received splash request')
+    app.logger.info(f'FRONTEND_ORIGIN: {os.getenv("FRONTEND_ORIGIN")}')
+    # ... rest of your code

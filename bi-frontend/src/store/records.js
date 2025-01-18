@@ -1,6 +1,8 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 
 const BACKEND_SERVER_URL = process.env.REACT_APP_FLASK_URL;
+console.log('Backend URL:', BACKEND_SERVER_URL);
+
 // Initial state
 const initialState = {
     empty: true,
@@ -10,14 +12,21 @@ const initialState = {
 };
 
 const loadRecordsData = async (csv) => {
-    const response = await fetch(`${BACKEND_SERVER_URL}/upload_csv`, {
-        method: 'POST',
-        body: csv,
-    });
-    if (!response.ok) {
-        throw new Error('Failed to upload CSV');
+    console.log('Attempting to connect to:', `${BACKEND_SERVER_URL}/upload_csv`);
+    try {
+        const response = await fetch(`${BACKEND_SERVER_URL}/upload_csv`, {
+            method: 'POST',
+            body: csv,
+        });
+        console.log('Response:', response);
+        if (!response.ok) {
+            throw new Error('Failed to upload CSV');
+        }
+        return response.json();
+    } catch (error) {
+        console.error('Fetch error:', error);
+        throw error;
     }
-    return response.json();
 };
 
 export const loadCSV = createAsyncThunk('records/loadCSV',
@@ -34,13 +43,17 @@ export const loadCSV = createAsyncThunk('records/loadCSV',
 export const splash = createAsyncThunk('records/splash',
     async (thunkAPI) => {
         try {
+            console.log('Attempting splash request to:', `${BACKEND_SERVER_URL}/splash`);
             const response = await fetch(`${BACKEND_SERVER_URL}/splash`, {
                 method: 'GET',
             });
+            console.log('Splash response:', response);
             if (!response.ok) throw new Error('Failed to get records status');
             const data = await response.json();
+            console.log('Splash data:', data);
             return data
         } catch (error) {
+            console.error('Splash error:', error);
             return thunkAPI.rejectWithValue(error.message);
         }
     }
