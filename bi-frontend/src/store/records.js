@@ -10,7 +10,7 @@ const initialState = {
 };
 
 const loadRecordsData = async (csv) => {
-    const response = await fetch(`http://localhost:5000/upload_csv`, {
+    const response = await fetch(`${BACKEND_SERVER_URL}/upload_csv`, {
         method: 'POST',
         body: csv,
     });
@@ -49,7 +49,6 @@ export const splash = createAsyncThunk('records/splash',
 export const clearCSV = createAsyncThunk('records/clearCSV',
     async (thunkAPI) => {
         try {
-            console.log("URL", `${BACKEND_SERVER_URL}/clear_csv`);
             const response = await fetch(`${BACKEND_SERVER_URL}/clear_csv`, {
                 method: 'POST',
             });
