@@ -1,2 +1,7 @@
 *venv/
 *.env
+*.csv
+*.pdf
+*.jpg
+*.pyc
+__pycache__/
