@@ -3,6 +3,7 @@ services:
   - type: web
     name: bi-frontend-app
     env: docker
+    dockerfilePath: ./bi-frontend/Dockerfile
     buildCommand: docker build -t bi-frontend ./bi-frontend
     envVars:
       - key: REACT_APP_FLASK_URL
@@ -15,6 +16,7 @@ services:
   - type: web
     name: bi-backend-app
     env: docker
+    dockerfilePath: ./backend/Dockerfile
     buildCommand: docker build -t bi-backend ./backend
     envVars:
       - key: FRONTEND_ORIGIN
@@ -26,3 +28,7 @@ services:
         sync: false
       - key: OPENAI_API_KEY
         sync: false
+      - key: FLASK_DEBUG
+        value: "0"
+      - key: PYTHONPATH
+        value: "/app"
