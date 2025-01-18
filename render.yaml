@@ -9,7 +9,7 @@ services:
         fromService:
           name: bi-backend-app
           type: web
-          property: url
+          property: host
 
   # Backend Service
   - type: web
@@ -21,7 +21,7 @@ services:
         fromService:
           name: bi-frontend-app
           type: web
-          property: url
+          property: host
       - key: SECRET_KEY
         sync: false
       - key: OPENAI_API_KEY
