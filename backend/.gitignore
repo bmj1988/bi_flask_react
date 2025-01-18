@@ -4,4 +4,7 @@
 *.pdf
 *.jpg
 *.pyc
+__pycache__
+.env
+node_modules/
 __pycache__/
