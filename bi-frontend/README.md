@@ -42,11 +42,11 @@ Creates a production-ready build in the `build` folder
 ## Project Structure
 
 src/
-├── components/ # Reusable UI components
-├── services/ # API and other services
-├── utils/ # Helper functions and utilities
-├── App.css # CSS Stylings for the application
-└── App.js # Root component / Main page
+├── components/ # Reusable UI components  
+├── services/ # API and other services  
+├── utils/ # Helper functions and utilities  
+├── App.css # CSS Stylings for the application  
+└── App.js # Root component / Main page  
 
 ## Technologies
 
