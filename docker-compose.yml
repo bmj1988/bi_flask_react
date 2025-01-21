@@ -3,19 +3,21 @@ version: '3.8'
 services:
   frontend:
     build:
-      context: ./bi-frontend
-      dockerfile: Dockerfile
+      context: .
+      dockerfile: bi-frontend/Dockerfile
+      args:
+        - REACT_APP_FLASK_URL=http://localhost:5000/
     ports:
       - "3000:80"
     depends_on:
       - backend
-    environment:
-      - REACT_APP_FLASK_URL=http://localhost:5000
+    networks:
+      - app-network
 
   backend:
     build:
-      context: ./backend
-      dockerfile: Dockerfile
+      context: .
+      dockerfile: backend/Dockerfile
     ports:
       - "5000:5000"
     volumes:
@@ -26,7 +28,13 @@ services:
       - FRONTEND_ORIGIN=http://localhost:3000
       - SECRET_KEY=${SECRET_KEY}
       - OPENAI_API_KEY=${OPENAI_API_KEY}
+    networks:
+      - app-network
     command: python run.py
+
+networks:
+  app-network:
+    driver: bridge
 
 volumes:
   uploads:
