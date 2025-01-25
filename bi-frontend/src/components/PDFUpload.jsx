@@ -18,11 +18,13 @@ const PDFUpload = ({ crosscheckError, crosscheckStatus, loading, setLoading }) =
     const handleFileChange = (event) => {
         const selectedFiles = Array.from(event.target.files);
 
-        // Check if all selected files are PDFs
-        const invalidFiles = selectedFiles.filter(file => file.type !== "application/pdf");
+        // Check if files are either PDFs or JPGs/JPEGs
+        const invalidFiles = selectedFiles.filter(file =>
+            !["application/pdf", "image/jpeg", "image/jpg"].includes(file.type)
+        );
 
         if (invalidFiles.length > 0) {
-            setError("Only PDF files are allowed.");
+            setError("Only PDF and JPG/JPEG files are allowed.");
             return;
         }
 
@@ -35,14 +37,14 @@ const PDFUpload = ({ crosscheckError, crosscheckStatus, loading, setLoading }) =
         event.preventDefault();
         setLoading(true);
         if (!files.length) {
-            setError("Please select a PDF file before uploading.");
+            setError("Please select files before uploading.");
             setLoading(false);
             return;
         }
 
         const formData = new FormData();
-        files.forEach((file, index) => {
-            formData.append(`pdf_files`, file);
+        files.forEach((file) => {
+            formData.append('imageData', file);
         });
 
         try {
@@ -69,7 +71,7 @@ const PDFUpload = ({ crosscheckError, crosscheckStatus, loading, setLoading }) =
                 <form onSubmit={handleSubmit}>
                     <input
                         type="file"
-                        accept=".pdf"
+                        accept=".pdf,.jpg,.jpeg"
                         onChange={handleFileChange}
                         multiple
                         disabled={loading}
