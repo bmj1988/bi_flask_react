@@ -4,7 +4,7 @@ This is a Flask-based backend server that handles CSV file processing and provid
 
 ## Prerequisites
 
-- Python 3.8 or higher
+- Python 3.10 or higher
 - pip (Python package installer)
 
 ## Setup
@@ -96,7 +96,7 @@ See `requirements.txt` for a full list of dependencies. Key packages include:
 ## Issues:
 
 * **CSV Column Flexibility:**
-  To make the process truly universal, the vectorized columns used for crosscheck would have to be dynamically generated based on the CSV being updated. This would require a more complex backend setup.
+  To make the process truly universal, the vectorized columns used for crosscheck would have to be dynamically generated based on the CSV being used for the voter records. This would require a more complex backend setup.
 
 * **Server Architecture:**
   Flask is not the best choice for a production server for a centralized application. It is not designed for high concurrency and is not scalable. Given that this project seems to work ideally as a local application with the stakeholder's API key, it is not a pressing concern at this time. If the presiding sentiment in the future is that the app should be centralized, then it would be worth the effort to set up a more robust backend.
